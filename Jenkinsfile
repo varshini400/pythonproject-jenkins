@@ -5,23 +5,20 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                git branch: 'main', url:'https://github.com/varshini400/pythonproject-jenkins.git'
+                git branch: 'main',
+                url: 'https://github.com/varshini400/pythonproject-jenkins.git'
             }
         }
 
         stage('Build Docker Image') {
             steps {
-                script {
-                    docker.build("python-app:latest")
-                }
+                sh 'docker build -t python-app .'
             }
         }
 
         stage('Run Docker Container') {
             steps {
-                script {
-                    docker.image("python-app:latest").run("-p 5000:5000")
-                }
+                sh 'docker run -d -p 5000:5000 python-app'
             }
         }
     }
